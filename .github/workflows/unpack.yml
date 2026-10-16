@@ -1,0 +1,19 @@
+name: Unpack bundle
+on: workflow_dispatch
+permissions:
+  contents: write
+jobs:
+  unpack:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898283+github-actions[bot]@users.noreply.github.com"
+          git fetch ./aioperationsroom.bundle cursor/aor-squad-agents-de69:project
+          git merge project --allow-unrelated-histories --no-edit -m "Import the AI Operations Room project"
+          git rm -q aioperationsroom.bundle
+          git commit -m "Remove the uploaded bundle"
+          git push origin main

@@ -206,5 +206,22 @@ class RoomSignalTest(unittest.TestCase):
         self.assertEqual(len(self.run_cmd("digest", now="2026-10-15T12:21:00Z")["fires_to_alert"]), 1)
 
 
+
+class ConfigTest(unittest.TestCase):
+    def test_reads_the_aor_section_of_shared_config_over_legacy(self):
+        import room_signal
+
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            (root / "_bmad" / "aor").mkdir(parents=True)
+            (root / "_bmad" / "aor" / "config.yaml").write_text("aor_timezone: UTC\naor_quiet_hours: 22:00-06:00\n")
+            (root / "_bmad" / "config.yaml").write_text(
+                "output_folder: '{project-root}/_bmad-output'\naor:\n  name: AI Operations Room\n"
+                "  aor_timezone: America/Sao_Paulo  # BRT\n  aor_blocker_fire_hours: 12\n")
+            cfg = room_signal.load_config(root)
+            self.assertEqual((cfg["aor_timezone"], cfg["aor_blocker_fire_hours"], cfg["aor_quiet_hours"]),
+                             ("America/Sao_Paulo", "12", "22:00-06:00"))
+            self.assertNotIn("name", cfg)
+
 if __name__ == "__main__":
     unittest.main(verbosity=2)

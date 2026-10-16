@@ -37,12 +37,13 @@ MARKDOWN_BLOCK_LIMIT = 12000
 
 
 def operator_channel(root: Path) -> str:
-    cfg = root / "_bmad" / "aor" / "config.yaml"
-    if cfg.is_file():
-        m = re.search(r"^aor_slack_channel\s*:\s*['\"]?([A-Z0-9]+)", cfg.read_text(encoding="utf-8"), re.M)
-        if m:
-            return m[1]
-    return DEFAULT_CHANNEL
+    channel = DEFAULT_CHANNEL
+    for cfg in (root / "_bmad" / "aor" / "config.yaml", root / "_bmad" / "config.yaml"):
+        if cfg.is_file():
+            m = re.search(r"^\s*aor_slack_channel\s*:\s*['\"]?([A-Z0-9]+)", cfg.read_text(encoding="utf-8"), re.M)
+            if m:
+                channel = m[1]
+    return channel
 
 
 def post(token: str, channel: str, text: str, thread_ts: str | None, opener=urllib.request.urlopen) -> dict:

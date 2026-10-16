@@ -11,7 +11,7 @@ event files on demand. New events are also pushed live to the room at
 $AOR_ROOM_URL/api/events (Bearer $AOR_ROOM_TOKEN); a failed push never fails the
 command, because git stays the source of truth and the room reconciles from it.
 
-Config: flat `key: value` lines from {root}/_bmad/aor/config.yaml
+Config: aor_* keys from the aor section of {root}/_bmad/config.yaml (written by aor-setup)
 (aor_timezone, aor_blocker_fire_hours, aor_slack_batch_minutes, aor_quiet_hours).
 Per-project `blocker_fire_hours: N` in
 {root}/_bmad/memory/aor/projects/{project}/project.yaml overrides the fire threshold.
@@ -98,20 +98,21 @@ def in_quiet_hours(now: datetime, spec: str, tz) -> bool:
 
 # ---------- config ----------
 
-def read_flat_yaml(path: Path) -> dict[str, str]:
+def aor_config(root: Path) -> dict[str, str]:
+    """aor_* keys from the aor section of _bmad/config.yaml (legacy _bmad/aor/config.yaml as fallback)."""
     out: dict[str, str] = {}
-    if not path.is_file():
-        return out
-    for line in path.read_text(encoding="utf-8").splitlines():
-        m = re.match(r"^([A-Za-z_][\w-]*)\s*:\s*(.*?)\s*(#.*)?$", line)
-        if m and m[2]:
-            out[m[1]] = m[2].strip().strip("'\"")
+    for path in (root / "_bmad" / "aor" / "config.yaml", root / "_bmad" / "config.yaml"):
+        if path.is_file():
+            for line in path.read_text(encoding="utf-8").splitlines():
+                m = re.match(r"^\s*(aor_\w+)\s*:\s*(.*?)\s*(#.*)?$", line)
+                if m and m[2]:
+                    out[m[1]] = m[2].strip().strip("'\"")
     return out
 
 
 def load_config(root: Path) -> dict[str, str]:
     cfg = dict(DEFAULTS)
-    cfg.update({k: v for k, v in read_flat_yaml(root / "_bmad" / "aor" / "config.yaml").items() if k in DEFAULTS})
+    cfg.update({k: v for k, v in aor_config(root).items() if k in DEFAULTS})
     return cfg
 
 

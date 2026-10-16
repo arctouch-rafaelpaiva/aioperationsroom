@@ -14,7 +14,7 @@ Mutating commands print `changed` (paths to commit) and `room_signals` (argv lis
 for aor-signal's room_signal.py, so characters appear or leave live). The script
 never commits and never calls aor-signal itself.
 
-Config: flat `key: value` lines from {root}/_bmad/aor/config.yaml
+Config: aor_* keys from the aor section of {root}/_bmad/config.yaml (written by aor-setup)
 (aor_timezone, aor_standup_time, aor_eod_time, aor_ops_repo).
 
 Output: JSON on stdout. Exit codes: 0 ok, 1 invalid request (message names the fix),
@@ -73,20 +73,21 @@ class Rejected(Exception):
 
 # ---------- io ----------
 
-def read_flat_yaml(path: Path) -> dict[str, str]:
+def aor_config(root: Path) -> dict[str, str]:
+    """aor_* keys from the aor section of _bmad/config.yaml (legacy _bmad/aor/config.yaml as fallback)."""
     out: dict[str, str] = {}
-    if not path.is_file():
-        return out
-    for line in path.read_text(encoding="utf-8").splitlines():
-        m = re.match(r"^([A-Za-z_][\w-]*)\s*:\s*(.*?)\s*(#.*)?$", line)
-        if m and m[2]:
-            out[m[1]] = m[2].strip().strip("'\"")
+    for path in (root / "_bmad" / "aor" / "config.yaml", root / "_bmad" / "config.yaml"):
+        if path.is_file():
+            for line in path.read_text(encoding="utf-8").splitlines():
+                m = re.match(r"^\s*(aor_\w+)\s*:\s*(.*?)\s*(#.*)?$", line)
+                if m and m[2]:
+                    out[m[1]] = m[2].strip().strip("'\"")
     return out
 
 
 def load_config(root: Path) -> dict[str, str]:
     cfg = dict(DEFAULTS)
-    cfg.update({k: v for k, v in read_flat_yaml(root / "_bmad" / "aor" / "config.yaml").items() if k in DEFAULTS})
+    cfg.update({k: v for k, v in aor_config(root).items() if k in DEFAULTS})
     return cfg
 
 

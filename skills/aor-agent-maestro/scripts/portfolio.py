@@ -32,18 +32,20 @@ PROJECTS = Path("_bmad/memory/aor/projects")
 SANCTUM = Path("_bmad/memory/aor-agent-maestro")
 
 
-def read_flat(path: Path) -> dict[str, str]:
+def aor_config(root: Path) -> dict[str, str]:
+    """aor_* keys from the aor section of _bmad/config.yaml (legacy _bmad/aor/config.yaml as fallback)."""
     out: dict[str, str] = {}
-    if path.is_file():
-        for line in path.read_text(encoding="utf-8").splitlines():
-            m = re.match(r"^([A-Za-z_][\w-]*)\s*:\s*(.*?)\s*$", line)
-            if m and m[2]:
-                out[m[1]] = m[2].strip().strip("'\"")
+    for path in (root / "_bmad" / "aor" / "config.yaml", root / "_bmad" / "config.yaml"):
+        if path.is_file():
+            for line in path.read_text(encoding="utf-8").splitlines():
+                m = re.match(r"^\s*(aor_\w+)\s*:\s*(.*?)\s*(#.*)?$", line)
+                if m and m[2]:
+                    out[m[1]] = m[2].strip().strip("'\"")
     return out
 
 
 def local_tz(root: Path):
-    name = read_flat(root / "_bmad" / "aor" / "config.yaml").get("aor_timezone", "America/Sao_Paulo")
+    name = aor_config(root).get("aor_timezone", "America/Sao_Paulo")
     try:
         from zoneinfo import ZoneInfo
 

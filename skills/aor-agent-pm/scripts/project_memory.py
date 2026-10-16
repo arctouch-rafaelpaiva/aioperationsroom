@@ -19,7 +19,7 @@ Commands:
   sync     commit project memory (squad memory included) + aor/room/ + an optional cross-project sanctum, rebase, push with retry
 
 Env: AOR_RUN_ID names this run's files (default "local").
-Config: aor_timezone from {root}/_bmad/aor/config.yaml (flat key: value).
+Config: aor_timezone from the aor section of {root}/_bmad/config.yaml (written by aor-setup).
 Output: JSON on stdout (context --format md prints markdown). Exit codes: 0 ok,
 1 invalid request (message names the fix), 2 error (sync: conflict or push failure).
 """
@@ -58,18 +58,20 @@ class Failed(Exception):
 
 # ---------- basics ----------
 
-def read_flat(path: Path) -> dict[str, str]:
+def aor_config(root: Path) -> dict[str, str]:
+    """aor_* keys from the aor section of _bmad/config.yaml (legacy _bmad/aor/config.yaml as fallback)."""
     out: dict[str, str] = {}
-    if path.is_file():
-        for line in path.read_text(encoding="utf-8").splitlines():
-            m = re.match(r"^([A-Za-z_][\w-]*)\s*:\s*(.*?)\s*$", line)
-            if m and m[2]:
-                out[m[1]] = m[2].strip().strip("'\"")
+    for path in (root / "_bmad" / "aor" / "config.yaml", root / "_bmad" / "config.yaml"):
+        if path.is_file():
+            for line in path.read_text(encoding="utf-8").splitlines():
+                m = re.match(r"^\s*(aor_\w+)\s*:\s*(.*?)\s*(#.*)?$", line)
+                if m and m[2]:
+                    out[m[1]] = m[2].strip().strip("'\"")
     return out
 
 
 def local_tz(root: Path):
-    name = read_flat(root / "_bmad" / "aor" / "config.yaml").get("aor_timezone", "America/Sao_Paulo")
+    name = aor_config(root).get("aor_timezone", "America/Sao_Paulo")
     try:
         from zoneinfo import ZoneInfo
 

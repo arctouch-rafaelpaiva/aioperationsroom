@@ -1,0 +1,18 @@
+# DO NOT EDIT -- overwritten on every update.
+#
+# Agent customization surface for aor-agent-docs.
+# Team overrides:     {project-root}/_bmad/custom/aor-agent-docs.toml
+# Personal overrides: {project-root}/_bmad/custom/aor-agent-docs.user.toml
+
+[agent]
+
+# --- Metadata (install-time roster contract) ---
+# Consumed by module.yaml:agents[] and `[agents.<code>]` in central config.
+
+code = "docs"
+name = ""
+title = "Documentation Specialist"
+icon = "📚"
+description = "Keeps one consistent truth for one project's squad: decision log, contradiction checks across sources, glossary, PRD updates, and release notes."
+agent_type = "memory"   # stateless | memory | autonomous
+

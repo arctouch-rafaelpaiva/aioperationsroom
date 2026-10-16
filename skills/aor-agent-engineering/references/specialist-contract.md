@@ -57,6 +57,13 @@ questions:
     owner: <role or person>
 follow_ups:
   - one line per new piece of work for the PM to triage
+decisions:              # optional: decisions found this run, for the PM's decisions.md
+  - decision: …
+    why: …
+    by: <person>
+    date: <YYYY-MM-DD>
+    source: <link>
+    supersedes: <earlier decision or none>
 calibration: done       # pending until this project's First Breath
 ```
 

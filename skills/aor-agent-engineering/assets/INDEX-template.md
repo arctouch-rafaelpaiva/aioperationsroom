@@ -5,7 +5,7 @@
 - `CREED.md` — what I believe (values, philosophy, boundaries, dominion)
 - `BOND.md` — who I serve (this project's engineering: repos and branches, stack, conventions, who decides what, how scope changes are handled)
 - `MEMORY.md` — what I know (curated long-term knowledge)
-- `CAPABILITIES.md` — what I can do (built-in + learned abilities + tools)
+- Capabilities — listed by wake from the skill's `references/` each time I wake (no file here)
 
 ## Session Logs
 - `sessions/<date>/<run id>.md` — raw notes, one file per run; curated into MEMORY.md by the curate run or in chat

@@ -5,7 +5,7 @@
 - `CREED.md` — what I believe (values, philosophy, boundaries, dominion)
 - `BOND.md` — who I serve (this project's team: test format, severity rubric, release gates, environments, where tests and CI live)
 - `MEMORY.md` — what I know (curated long-term knowledge)
-- `CAPABILITIES.md` — what I can do (built-in + learned abilities + tools)
+- Capabilities — listed by wake from the skill's `references/` each time I wake (no file here)
 
 ## Session Logs
 - `sessions/<date>/<run id>.md` — raw notes, one file per run; curated into MEMORY.md by the curate run or in chat

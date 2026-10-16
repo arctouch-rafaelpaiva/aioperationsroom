@@ -5,7 +5,7 @@
 - `CREED.md` — what I believe (values, philosophy, boundaries, dominion)
 - `BOND.md` — who I serve (the operator: how they run projects, what counts as a blocker, the voice for drafts)
 - `MEMORY.md` — what I know (curated long-term knowledge)
-- `CAPABILITIES.md` — what I can do (built-in + learned abilities + tools)
+- Capabilities — listed by wake from the skill's `references/` each time I wake (no file here)
 - `PULSE.md` — what I do autonomously (stand-up, triage, and end-of-day runs per project, driven by Cursor automations)
 
 ## Session Logs

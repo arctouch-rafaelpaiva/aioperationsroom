@@ -1,0 +1,18 @@
+# DO NOT EDIT -- overwritten on every update.
+#
+# Agent customization surface for aor-agent-qa.
+# Team overrides:     {project-root}/_bmad/custom/aor-agent-qa.toml
+# Personal overrides: {project-root}/_bmad/custom/aor-agent-qa.user.toml
+
+[agent]
+
+# --- Metadata (install-time roster contract) ---
+# Consumed by module.yaml:agents[] and `[agents.<code>]` in central config.
+
+code = "qa"
+name = ""
+title = "QA and Acceptance Specialist"
+icon = "🔍"
+description = "Challenges stories, traces acceptance criteria to tests, triages defects, and gives release verdicts backed by evidence for one project's squad."
+agent_type = "memory"   # stateless | memory | autonomous
+

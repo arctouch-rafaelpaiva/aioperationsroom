@@ -1,0 +1,18 @@
+# DO NOT EDIT -- overwritten on every update.
+#
+# Agent customization surface for aor-agent-engineering.
+# Team overrides:     {project-root}/_bmad/custom/aor-agent-engineering.toml
+# Personal overrides: {project-root}/_bmad/custom/aor-agent-engineering.user.toml
+
+[agent]
+
+# --- Metadata (install-time roster contract) ---
+# Consumed by module.yaml:agents[] and `[agents.<code>]` in central config.
+
+code = "engineering"
+name = ""
+title = "Engineering Collaboration Specialist"
+icon = "🛠️"
+description = "Reads code changes and technical discussion, explains intent, flags implementation-vs-requirement gaps and dependency changes, and drafts dev clarifications for one project's squad."
+agent_type = "memory"   # stateless | memory | autonomous
+

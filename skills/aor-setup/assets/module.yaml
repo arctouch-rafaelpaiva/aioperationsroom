@@ -1,0 +1,114 @@
+code: aor
+name: "AI Operations Room"
+description: "An animated room where one squad per project (a PM and six specialists) and a cross-project conductor run your projects around the clock, and ask before anything leaves the room"
+module_version: 1.0.0
+default_selected: false
+module_greeting: >
+  The AI Operations Room is installed. Next: add your first project with aor-onboard-project ("onboard project X"),
+  create the automations listed in _bmad/memory/aor/automations.md and in each project's automations.md, and
+  hold each agent's First Breath by talking to it once. Nothing leaves the room without your approval.
+
+  Run aor-setup again any time to change a setting, or edit the aor section of _bmad/config.yaml.
+
+aor_timezone:
+  prompt: "Timezone for the room's rituals (IANA name)?"
+  default: "America/Sao_Paulo"
+  result: "{value}"
+  example: "America/Sao_Paulo, Europe/Lisbon, UTC"
+  required: true
+
+aor_standup_time:
+  prompt: "PM stand-up time, every project (HH:MM)?"
+  default: "08:00"
+  result: "{value}"
+  regex: "^([01][0-9]|2[0-3]):[0-5][0-9]$"
+
+aor_brief_time:
+  prompt: "Maestro morning brief time, after the stand-ups (HH:MM)?"
+  default: "08:30"
+  result: "{value}"
+  regex: "^([01][0-9]|2[0-3]):[0-5][0-9]$"
+
+aor_eod_time:
+  prompt: "PM end-of-day wrap time (HH:MM)?"
+  default: "18:00"
+  result: "{value}"
+  regex: "^([01][0-9]|2[0-3]):[0-5][0-9]$"
+
+aor_quiet_hours:
+  prompt: "Quiet hours, when only fires reach you (HH:MM-HH:MM)?"
+  default: "19:00-07:30"
+  result: "{value}"
+  regex: "^([01][0-9]|2[0-3]):[0-5][0-9]-([01][0-9]|2[0-3]):[0-5][0-9]$"
+
+aor_slack_batch_minutes:
+  prompt: "Group approvals and needs-you items into one Slack message every how many minutes?"
+  default: "30"
+  result: "{value}"
+  regex: "^[1-9][0-9]*$"
+
+aor_slack_channel:
+  prompt: "Your operator Slack channel ID, for briefs, grouped approvals, and fire alerts?"
+  default: "C0C9F0ERP35"
+  result: "{value}"
+  example: "Channel details in Slack, bottom of the About tab: C0123ABCDEF"
+  regex: "^[CG][A-Z0-9]{8,}$"
+  required: true
+
+aor_blocker_fire_hours:
+  prompt: "Hours before an open blocker counts as a fire (projects can override)?"
+  default: "24"
+  result: "{value}"
+  regex: "^[1-9][0-9]*$"
+
+aor_ops_repo:
+  prompt: "Name of the private ops repo that holds the room's memory and state (this repo)?"
+  default: "aor-ops"
+  result: "{value}"
+
+aor_room_url:
+  prompt: "Room app URL, once it's deployed (leave the default until then)?"
+  default: "not-deployed"
+  result: "{value}"
+
+agents:
+  - code: maestro
+    name: "Maestro"
+    title: "Operations Room Conductor"
+    icon: "🎼"
+    description: "Reads every AI Operations Room project at once: the morning brief, fire alerts, grouped approval digests, and comms intake."
+  - code: pm
+    name: ""
+    title: "Project Stage Manager"
+    icon: "🎧"
+    description: "Runs one AI Operations Room project: stand-ups, triage to specialists, approved posts, and the end-of-day wrap."
+  - code: discovery
+    name: ""
+    title: "Discovery Specialist"
+    icon: "🧭"
+    description: "Turns feedback, research, and stakeholder asks into evidence-backed themes, opportunity briefs, and validation questions for one project's squad."
+  - code: requirements
+    name: ""
+    title: "Requirements and Backlog Specialist"
+    icon: "📐"
+    description: "Turns opportunities into ready, testable stories for one project's squad, and checks the backlog for gaps before refinement."
+  - code: docs
+    name: ""
+    title: "Documentation Specialist"
+    icon: "📚"
+    description: "Keeps one consistent truth for one project's squad: decision log, contradiction checks across sources, glossary, PRD updates, and release notes."
+  - code: design
+    name: ""
+    title: "Design Collaboration Specialist"
+    icon: "🎨"
+    description: "Checks that designs cover requirements and every interaction state, flags flow and accessibility gaps, and maps designs to stories for one project's squad."
+  - code: engineering
+    name: ""
+    title: "Engineering Collaboration Specialist"
+    icon: "🛠️"
+    description: "Reads code changes and technical discussion, explains intent, flags implementation-vs-requirement gaps and dependency changes, and drafts dev clarifications for one project's squad."
+  - code: qa
+    name: ""
+    title: "QA and Acceptance Specialist"
+    icon: "🔍"
+    description: "Challenges stories, traces acceptance criteria to tests, triages defects, and gives release verdicts backed by evidence for one project's squad."

@@ -1,0 +1,70 @@
+{
+  "scanner": "workflow-integrity-prepass",
+  "script": "prepass-workflow-integrity.py",
+  "version": "1.0.0",
+  "skill_path": "/workspace/skills/aor-signal",
+  "timestamp": "2026-10-15T19:58:48.026852+00:00",
+  "status": "warning",
+  "metadata": {
+    "frontmatter": {
+      "name": "aor-signal",
+      "description": "Records AI Operations Room status, asks, approvals, and fires. Use when an aor agent needs to 'update the room', 'raise my hand', 'ask the operator', 'flag a fire', 'record a decision', or get the room 'digest' or 'state'."
+    },
+    "sections": [
+      {
+        "level": 2,
+        "title": "Resolution rules",
+        "line": 15
+      },
+      {
+        "level": 2,
+        "title": "What to record, and when",
+        "line": 20
+      },
+      {
+        "level": 2,
+        "title": "Gotchas",
+        "line": 32
+      },
+      {
+        "level": 2,
+        "title": "When the script can't run",
+        "line": 40
+      }
+    ],
+    "workflow_type": "simple-utility"
+  },
+  "stage_summary": {
+    "total_stages": 0,
+    "referenced": [],
+    "actual": [],
+    "missing_stages": [],
+    "orphaned_stages": []
+  },
+  "prompt_details": [],
+  "issues": [
+    {
+      "file": "SKILL.md",
+      "line": 1,
+      "severity": "high",
+      "category": "sections",
+      "issue": "Missing ## Overview section"
+    },
+    {
+      "file": "SKILL.md",
+      "line": 1,
+      "severity": "high",
+      "category": "sections",
+      "issue": "Missing ## On Activation section"
+    }
+  ],
+  "summary": {
+    "total_issues": 2,
+    "by_severity": {
+      "critical": 0,
+      "high": 2,
+      "medium": 0,
+      "low": 0
+    }
+  }
+}

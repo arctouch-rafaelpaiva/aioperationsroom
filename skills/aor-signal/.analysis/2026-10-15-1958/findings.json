@@ -1,0 +1,159 @@
+{
+  "schema_version": 2,
+  "subject": "/workspace/skills/aor-signal",
+  "generated": "2026-10-15",
+  "verdict": "Sound, lean utility with a clean prompt/script boundary. Two script state-machine bugs (terminal resolves, global risk ids) and a missing re-check before posting approved content need fixing before agents depend on it.",
+  "grade": "fair",
+  "summary": "The skill's strength is its shape: a 1.2k-token SKILL.md that says when to record what, backed by a tested, deterministic event-sourced script that keeps concurrent cloud runs conflict-free. The main opportunity is hardening the irreversible paths: the script's state machine accepts invalid transitions and collides risk ids across projects, and the approval executor posts without re-validating the item right before it acts.",
+  "standards": {
+    "canon": "/workspace/.agents/skills/bmad-workflow-builder/references/prompt-quality-canon.md",
+    "principles": "/workspace/.agents/skills/bmad-workflow-builder/references/skill-quality-principles.md",
+    "scripts": "/workspace/.agents/skills/bmad-workflow-builder/references/script-standards.md"
+  },
+  "themes": [
+    {
+      "title": "Script state machine is too permissive",
+      "root_cause": "room_signal.py validates the happy path but not terminal states or cross-project identity. Agents trust ok:true, so a closed item can be resurrected, one project's blocker can vanish, and a mis-keyed fire clear leaves a pod red while reporting success.",
+      "finding_ids": [
+        "determinism-1",
+        "determinism-2",
+        "determinism-3"
+      ],
+      "action": "Tighten the script: reject resolves from terminal statuses, key risks by project|risk, and exit 1 when a fire clear matches nothing (listing active refs). Add unit tests for each."
+    },
+    {
+      "title": "Irreversible posts lack a last-moment check",
+      "root_cause": "Approval execution goes fetch → post → resolve. An operator reject/edit can land in between, and the hand-written fallback can re-alert a fire the script would dedupe.",
+      "finding_ids": [
+        "enhancement-1",
+        "enhancement-2"
+      ],
+      "action": "Add plan-validate-execute to Executing approvals (re-read the item immediately before posting; post final_payload for edited), and make the no-script fallback check for an active same-key fire before appending one."
+    },
+    {
+      "title": "Contract file mixes writer and reader audiences",
+      "root_cause": "references/room-event-contract.md serves both the no-script agent fallback and the Vercel room app. The agent fallback pays for Folded state and Live push sections it should not act on.",
+      "finding_ids": [
+        "leanness-1",
+        "leanness-2"
+      ],
+      "action": "Point the SKILL.md fallback at the Storage, Event envelope, and Event types sections only (or split a write-only contract), keeping Live push and Folded state for the room app."
+    }
+  ],
+  "strengths": [
+    "Event-sourced per-run JSONL files make concurrent Cursor Cloud runs conflict-free in git and give the room free replay.",
+    "Clean intelligence placement: agents judge what is true; the script owns dedup, thresholds, batch windows, and quiet hours.",
+    "Invalid requests exit 1 with a message naming the fix and the valid ids, so agents can self-correct.",
+    "Live push degrades gracefully: git stays the source of truth.",
+    "SKILL.md is destination-shaped and well under budget; gotchas stay inline."
+  ],
+  "recommendations": [
+    {
+      "rank": 1,
+      "action": "Fix the script state machine (terminal resolves, project-scoped risk ids, loud fire-clear miss) with unit tests.",
+      "resolves": [
+        "determinism-1",
+        "determinism-2",
+        "determinism-3"
+      ]
+    },
+    {
+      "rank": 2,
+      "action": "Rewrite Executing approvals as plan, validate (re-read the item right before posting), then execute.",
+      "resolves": [
+        "enhancement-1"
+      ]
+    },
+    {
+      "rank": 3,
+      "action": "Scope the fallback to the write sections of the contract and add a fire dedup check to the hand-write path.",
+      "resolves": [
+        "leanness-1",
+        "leanness-2",
+        "enhancement-2"
+      ]
+    }
+  ],
+  "experience": {
+    "journeys": [
+      {
+        "name": "Specialist raises hand",
+        "steps": "approval with exact payload → room hand up + Maestro digest → operator approves/edits → agent re-reads item → posts → resolve done"
+      },
+      {
+        "name": "Blocker becomes fire",
+        "steps": "risk open → PM run evaluate after 24h → new_fires → Maestro alerts Slack once → risk close → evaluate clears"
+      }
+    ],
+    "headless": "Headless-only by design: every command is non-interactive JSON with exit codes, called by other aor agents inside Cursor Cloud automation runs."
+  },
+  "findings": [
+    {
+      "id": "leanness-1",
+      "lens": "leanness",
+      "severity": "high",
+      "title": "Folded-state section is ceremony on the agent load path",
+      "location": "references/room-event-contract.md:Folded state",
+      "evidence": "SKILL.md loads this file only for the no-script hand-append path; Folded state describes how the room derives state and does not change which fields an agent writes.",
+      "recommendation": "Keep Storage, Event envelope, and Event types on the agent path; leave Folded state for the room app.",
+      "proposed_smallest": "Omit '## Folded state' from the agent-loaded contract.",
+      "predicted_delta": "Nothing for correct hand-written events. Route to variant eval to confirm."
+    },
+    {
+      "id": "leanness-2",
+      "lens": "leanness",
+      "severity": "medium",
+      "title": "Live-push API docs invite work the fallback forbids",
+      "location": "references/room-event-contract.md:Live push",
+      "evidence": "The fallback is append-only, but the same reader is taught the POST shape, which can prompt a DIY push without the script's failure handling.",
+      "recommendation": "Omit Live push from the agent-loaded write contract; keep it for the room app.",
+      "proposed_smallest": "Omit '## Live push' from the agent-loaded contract.",
+      "predicted_delta": "Agents without the script would not POST, which is correct. Route to variant eval to confirm."
+    },
+    {
+      "id": "determinism-1",
+      "lens": "determinism",
+      "severity": "high",
+      "title": "Resolve allows transitions out of terminal item statuses",
+      "location": "scripts/room_signal.py:cmd_resolve",
+      "evidence": "After done/failed/answered/rejected, operator decisions are accepted again (e.g. done→approved exits 0), resurrecting closed items.",
+      "recommendation": "Reject resolves from terminal statuses; add unit tests."
+    },
+    {
+      "id": "determinism-2",
+      "lens": "determinism",
+      "severity": "high",
+      "title": "Risks folded by bare risk id, not project-scoped",
+      "location": "scripts/room_signal.py:fold",
+      "evidence": "risks[risk] overwrites globally; two projects using the same stable id lose one blocker from state, evaluate, and health.",
+      "recommendation": "Key risks as project|risk; add a two-project unit test."
+    },
+    {
+      "id": "determinism-3",
+      "lens": "determinism",
+      "severity": "medium",
+      "title": "Fire --clear without matching --ref silently no-ops while ok:true",
+      "location": "scripts/room_signal.py:cmd_fire",
+      "evidence": "Clearing a fire raised with --ref but cleared without it returns ok:true, recorded:false; the pod stays red.",
+      "recommendation": "Exit 1 when --clear matches no active fire and list the active refs for that project/reason; add a unit test."
+    },
+    {
+      "id": "enhancement-1",
+      "lens": "enhancement",
+      "severity": "high",
+      "title": "Add plan-validate-execute to approval execution",
+      "location": "SKILL.md:Executing approvals",
+      "evidence": "Fetch → post → resolve with no re-check; an operator reject/edit landing between fetch and post would be ignored on an irreversible external write.",
+      "recommendation": "Plan ready items and payloads; immediately before each post re-read the item and abort unless still approved/edited with the same payload; then post and resolve."
+    },
+    {
+      "id": "enhancement-2",
+      "lens": "enhancement",
+      "severity": "medium",
+      "title": "Tighten graceful degradation for fire hand-writes",
+      "location": "SKILL.md:When the script can't run",
+      "evidence": "The fallback skips dedup entirely, so a hand-written fire can re-alert Slack.",
+      "recommendation": "For fire only, scan existing events for an active same project|reason|ref before appending."
+    }
+  ]
+}

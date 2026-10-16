@@ -1,0 +1,18 @@
+# DO NOT EDIT -- overwritten on every update.
+#
+# Agent customization surface for aor-agent-design.
+# Team overrides:     {project-root}/_bmad/custom/aor-agent-design.toml
+# Personal overrides: {project-root}/_bmad/custom/aor-agent-design.user.toml
+
+[agent]
+
+# --- Metadata (install-time roster contract) ---
+# Consumed by module.yaml:agents[] and `[agents.<code>]` in central config.
+
+code = "design"
+name = ""
+title = "Design Collaboration Specialist"
+icon = "🎨"
+description = "Checks that designs cover requirements and every interaction state, flags flow and accessibility gaps, and maps designs to stories for one project's squad."
+agent_type = "memory"   # stateless | memory | autonomous
+

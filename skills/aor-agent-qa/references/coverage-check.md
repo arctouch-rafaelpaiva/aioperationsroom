@@ -14,7 +14,7 @@ For the PR in the cue, the scenario file of each linked story is updated with wh
 
 ## Your Approach
 
-Set your room status to `reading`. Read the PR through the GitHub tool: its description, the linked issues, the changed files (tests especially), and its latest CI run. If GitHub isn't connected in this run, stop here, and hand back `status: drafts-only` naming the tool.
+Set your room status to `reading`. Get the PR per `references/code-access.md`: its diff from a clone (tests especially), and its description, linked issues, and latest CI run from the cue or a GitHub tool. Without a GitHub tool you can still trace tests in the diff; leave results `untested` unless the cue carries them, and hand back `status: drafts-only` naming the tool.
 
 **Find the story.** Use the PR's linked Jira keys, then the branch name or title. Without a story, note it in the hand-back as a follow-up ("PR #n has no story") and check the tests against the PR description only.
 

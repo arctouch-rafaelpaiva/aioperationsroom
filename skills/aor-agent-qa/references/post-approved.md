@@ -17,7 +17,7 @@ Every approved item of yours on this project is posted exactly as approved, once
 Follow aor-signal's plan, validate, and execute steps for items with `--owner <member id> --project <id>`. Post the `final_payload` if the operator edited it, otherwise the `payload`. Re-read each item right before posting.
 
 - **Jira `comment`:** one comment on the `target_url` issue, through the Jira tool (Atlassian MCP).
-- **GitHub `comment`:** one PR comment on the `target_url` pull request, through the GitHub tool. A comment, never a review that approves or requests changes.
+- **GitHub `comment`:** one PR comment on the `target_url` pull request, through the GitHub tool (`references/code-access.md`). A comment, never a review that approves or requests changes.
 - **Slack `post_message`:** one message in the project channel named by `target_url`, through the Slack MCP.
 - **Notion `update_page`:** append the approved content to the `target_url` page; never rewrite what's already there.
 

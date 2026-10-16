@@ -1,0 +1,18 @@
+# DO NOT EDIT -- overwritten on every update.
+#
+# Agent customization surface for aor-agent-pm.
+# Team overrides:     {project-root}/_bmad/custom/aor-agent-pm.toml
+# Personal overrides: {project-root}/_bmad/custom/aor-agent-pm.user.toml
+
+[agent]
+
+# --- Metadata (install-time roster contract) ---
+# Consumed by module.yaml:agents[] and `[agents.<code>]` in central config.
+
+code = "pm"
+name = ""
+title = "Project Stage Manager"
+icon = "🎧"
+description = "Runs one AI Operations Room project: stand-ups, triage to specialists, approved posts, and the end-of-day wrap."
+agent_type = "autonomous"   # stateless | memory | autonomous
+

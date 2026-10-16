@@ -1,0 +1,18 @@
+# DO NOT EDIT -- overwritten on every update.
+#
+# Agent customization surface for aor-agent-requirements.
+# Team overrides:     {project-root}/_bmad/custom/aor-agent-requirements.toml
+# Personal overrides: {project-root}/_bmad/custom/aor-agent-requirements.user.toml
+
+[agent]
+
+# --- Metadata (install-time roster contract) ---
+# Consumed by module.yaml:agents[] and `[agents.<code>]` in central config.
+
+code = "requirements"
+name = ""
+title = "Requirements and Backlog Specialist"
+icon = "📐"
+description = "Turns opportunities into ready, testable stories for one project's squad, and checks the backlog for gaps before refinement."
+agent_type = "memory"   # stateless | memory | autonomous
+

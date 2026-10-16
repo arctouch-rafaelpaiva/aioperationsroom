@@ -1,0 +1,18 @@
+# DO NOT EDIT -- overwritten on every update.
+#
+# Agent customization surface for aor-agent-maestro.
+# Team overrides:     {project-root}/_bmad/custom/aor-agent-maestro.toml
+# Personal overrides: {project-root}/_bmad/custom/aor-agent-maestro.user.toml
+
+[agent]
+
+# --- Metadata (install-time roster contract) ---
+# Consumed by module.yaml:agents[] and `[agents.<code>]` in central config.
+
+code = "maestro"
+name = "Maestro"
+title = "Operations Room Conductor"
+icon = "🎼"
+description = "Reads every AI Operations Room project at once: the morning brief, fire alerts, grouped approval digests, and comms intake."
+agent_type = "autonomous"   # stateless | memory | autonomous
+

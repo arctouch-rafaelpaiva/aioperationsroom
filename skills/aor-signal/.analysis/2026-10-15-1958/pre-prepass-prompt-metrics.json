@@ -1,0 +1,113 @@
+{
+  "scanner": "prompt-metrics-prepass",
+  "script": "prepass-prompt-metrics.py",
+  "version": "2.0.0",
+  "skill_path": "/workspace/skills/aor-signal",
+  "timestamp": "2026-10-15T19:58:47.973494+00:00",
+  "budgets": {
+    "skill_md_tokens": [
+      1500,
+      2500
+    ],
+    "multi_branch_reference_tokens": 4500,
+    "single_purpose_reference_tokens": 9000
+  },
+  "skill_md": {
+    "tokens": 1223,
+    "token_method": "tiktoken",
+    "section_count": 4,
+    "frontmatter": {
+      "name": "aor-signal",
+      "description": "Records AI Operations Room status, asks, approvals, and fires. Use when an aor agent needs to 'update the room', 'raise my hand', 'ask the operator', 'flag a fire', 'record a decision', or get the room 'digest' or 'state'.",
+      "description_chars": 222,
+      "description_has_angle_brackets": false,
+      "keys": [
+        "description",
+        "name"
+      ]
+    }
+  },
+  "aggregate": {
+    "total_files_scanned": 2,
+    "total_tokens": 1758,
+    "total_waste_patterns": 0,
+    "total_back_references": 0,
+    "files_with_numbered_prefix": 0
+  },
+  "reference_sizes": {
+    "room-event-contract.md": {
+      "tokens": 1057,
+      "token_method": "tiktoken",
+      "numbered_prefix_filename": false
+    }
+  },
+  "files": [
+    {
+      "file": "SKILL.md",
+      "tokens": 1223,
+      "token_method": "tiktoken",
+      "sections": [
+        {
+          "level": 2,
+          "title": "Resolution rules"
+        },
+        {
+          "level": 2,
+          "title": "What to record, and when"
+        },
+        {
+          "level": 2,
+          "title": "Gotchas"
+        },
+        {
+          "level": 2,
+          "title": "When the script can't run"
+        }
+      ],
+      "table_count": 0,
+      "table_rows": 0,
+      "fenced_block_count": 0,
+      "allcaps_directive_count": 0,
+      "numbered_prefix_filename": false,
+      "waste_patterns": [],
+      "back_references": [],
+      "frontmatter": {
+        "name": "aor-signal",
+        "description": "Records AI Operations Room status, asks, approvals, and fires. Use when an aor agent needs to 'update the room', 'raise my hand', 'ask the operator', 'flag a fire', 'record a decision', or get the room 'digest' or 'state'.",
+        "description_chars": 222,
+        "description_has_angle_brackets": false,
+        "keys": [
+          "description",
+          "name"
+        ]
+      },
+      "is_skill_md": true
+    },
+    {
+      "file": ".memlog.md",
+      "tokens": 535,
+      "token_method": "tiktoken",
+      "sections": [],
+      "table_count": 0,
+      "table_rows": 0,
+      "fenced_block_count": 0,
+      "allcaps_directive_count": 0,
+      "numbered_prefix_filename": false,
+      "waste_patterns": [],
+      "back_references": [],
+      "frontmatter": {
+        "name": "",
+        "description": "",
+        "description_chars": 0,
+        "description_has_angle_brackets": false,
+        "keys": [
+          "goal",
+          "plan",
+          "topic",
+          "updated"
+        ]
+      },
+      "is_skill_md": false
+    }
+  ]
+}

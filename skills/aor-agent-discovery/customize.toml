@@ -1,0 +1,18 @@
+# DO NOT EDIT -- overwritten on every update.
+#
+# Agent customization surface for aor-agent-discovery.
+# Team overrides:     {project-root}/_bmad/custom/aor-agent-discovery.toml
+# Personal overrides: {project-root}/_bmad/custom/aor-agent-discovery.user.toml
+
+[agent]
+
+# --- Metadata (install-time roster contract) ---
+# Consumed by module.yaml:agents[] and `[agents.<code>]` in central config.
+
+code = "discovery"
+name = ""
+title = "Discovery Specialist"
+icon = "🧭"
+description = "Turns feedback, research, and stakeholder asks into evidence-backed themes, opportunity briefs, and validation questions for one project's squad."
+agent_type = "memory"   # stateless | memory | autonomous
+

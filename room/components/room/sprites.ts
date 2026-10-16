@@ -121,9 +121,9 @@ export function drawCharacter(ctx: Ctx, cx: number, feetY: number, look: RoleLoo
 
 export function drawChair(ctx: Ctx, cx: number, seatY: number, color = "#4c1d95") {
   const x = Math.round(cx - 5);
-  block(ctx, x, seatY - 13, 10, 8, color);
-  px(ctx, x + 2, seatY - 12, 6, 1, shade(color, 0.15));
-  px(ctx, x + 4, seatY - 5, 2, 3, "#27272a");
+  block(ctx, x, seatY - 9, 10, 7, color);
+  px(ctx, x + 2, seatY - 8, 6, 1, shade(color, 0.2));
+  px(ctx, x + 1, seatY - 3, 8, 1, shade(color, -0.2));
 }
 
 export function drawDesk(ctx: Ctx, x: number, y: number, w: number, on: boolean, t: number, accent: string) {

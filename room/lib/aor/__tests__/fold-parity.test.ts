@@ -70,6 +70,15 @@ describe("fold matches aor-signal's fold", () => {
     expect(fold([res, item]).items[item.id]).toMatchObject({ status: "answered", answer: "yes" });
   });
 
+  it("checks each decision in a batch against the ones before it", () => {
+    const item = makeEvent("ask", "p", "aor-agent-pm", { question: "?" }, "r1", new Date("2026-10-16T10:00:00.000Z"));
+    const { results } = planResolves(fold([item]), [
+      { id: item.id, decision: "answered", answer: "yes" },
+      { id: item.id, decision: "answered", answer: "again" },
+    ], "operator", "room-x");
+    expect(results.map((r) => r.ok)).toEqual([true, false]);
+  });
+
   it("ignores illegal transitions", () => {
     const item = makeEvent("ask", "p", "aor-agent-pm", { question: "?" }, "r1", new Date("2026-10-16T10:00:00.000Z"));
     const bad = makeEvent("resolve", "p", "room", { item: item.id, decision: "done" }, "r2", new Date("2026-10-16T10:00:01.000Z"));

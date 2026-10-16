@@ -138,6 +138,7 @@ export function planResolves(state: FoldedState, requests: ResolveRequest[], by:
     if (r.note?.trim()) data.note = r.note.trim();
     events.push(makeEvent("resolve", item.project, "room", data, run));
     results.push({ id: r.id, ok: true });
+    item.status = r.decision;
   }
   return { events, results };
 }

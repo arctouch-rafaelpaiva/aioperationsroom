@@ -385,9 +385,12 @@ function drawText(ctx: CanvasRenderingContext2D, L: WorldLayout, snap: RoomSnaps
   ctx.font = "4.5px ui-sans-serif, system-ui, sans-serif";
   for (const seat of [L.maestro, ...L.pods.flatMap((p) => p.seats)]) {
     const m = seat.member;
-    ctx.fillStyle = m.status === "offline" ? "#52525b" : "#cbd5e1";
-    ctx.fillText(m.status === "offline" ? `${m.name} · away` : m.name, seat.x, seat.deskY + 16.5);
     const w = walkers.get(seat.key);
+    const away = w && (Math.abs(w.x - seat.x) > 1 || Math.abs(w.y - seat.feetY) > 1);
+    if (!away) {
+      ctx.fillStyle = m.status === "offline" ? "#52525b" : "#cbd5e1";
+      ctx.fillText(m.status === "offline" ? `${m.name} · away` : m.name, seat.x, seat.deskY + 16.5);
+    }
     if (m.approvals > 0 && m.asks === 0 && w && m.status !== "offline") {
       ctx.font = "bold 5px ui-sans-serif, system-ui, sans-serif";
       ctx.fillStyle = "#0f172a";

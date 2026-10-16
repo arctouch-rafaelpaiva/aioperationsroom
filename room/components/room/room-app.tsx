@@ -194,7 +194,7 @@ export function RoomApp({ kiosk, token, sound, passwordSet }: { kiosk: boolean; 
                 🔥 {f.projectName}: {FIRE_LABEL[f.reason] ?? f.reason}
               </span>
             ))}
-          {level !== "green" && (
+          {open.length > 0 && (
             <span>
               {asks} need{asks === 1 ? "s" : ""} you · {approvals} to approve
             </span>

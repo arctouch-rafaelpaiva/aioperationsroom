@@ -103,6 +103,8 @@ const NEW_ITEMS: { kind: "ask" | "approval"; project: string; agent: string; dat
   },
 ];
 
+const POSTED: Record<string, string> = { pr_comment: "GitHub comment", page_update: "Notion update", create_issues: "Jira stories" };
+
 interface DemoStore {
   events: RoomEvent[];
   lastTick: number;
@@ -216,7 +218,7 @@ function tick(s: DemoStore, now: number) {
     if (!item) continue;
     posted.add(e.data.item);
     add(makeEvent("resolve", item.project, item.agent, { item: item.id, decision: "done", by: item.agent, result_url: item.data.target_url }, "demo-run", at));
-    add(makeEvent("status", item.project, item.agent, { status: "working", task: `Posted the approved ${String(item.data.target)} ${String(item.data.action).replace("_", " ")}` }, "demo-run", at));
+    add(makeEvent("status", item.project, item.agent, { status: "working", task: `Posted the approved ${POSTED[String(item.data.action)] ?? "post"}` }, "demo-run", at));
   }
 
   const open = s.events.filter((e) => (e.type === "ask" || e.type === "approval") && !s.events.some((r) => r.type === "resolve" && r.data.item === e.id));

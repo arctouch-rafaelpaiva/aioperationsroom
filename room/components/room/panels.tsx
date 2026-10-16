@@ -322,7 +322,7 @@ export function ListView({ snapshot, onSelectMember, onSelectProject }: { snapsh
   return (
     <div className="mx-auto grid max-w-6xl gap-3 p-3 sm:p-4 md:grid-cols-2 xl:grid-cols-3">
       {snapshot.projects.map((p) => (
-        <section key={p.id} className={cn("rounded-xl border bg-card p-3", p.health === "red" && "border-red-500/60", p.health === "amber" && "border-amber-500/50")}>
+        <section key={p.id} className={cn("min-w-0 rounded-xl border bg-card p-3", p.health === "red" && "border-red-500/60", p.health === "amber" && "border-amber-500/50")}>
           <button className="flex w-full items-center gap-2 text-left" onClick={() => onSelectProject(p.id)}>
             <span className={cn("size-2.5 rounded-full", HEALTH_DOT[p.health])} />
             <h2 className="flex-1 font-semibold">{p.name}</h2>

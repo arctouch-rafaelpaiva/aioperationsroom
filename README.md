@@ -28,6 +28,7 @@ The room lives in a private **ops repo** that holds its memory and state; schedu
 | `skills/aor-agent-maestro/` | Cross-project conductor |
 | `skills/aor-agent-pm/` | Per-project stage manager, plus the shared project memory script and squad contract |
 | `skills/aor-agent-{discovery,requirements,design,engineering,qa,docs}/` | The six specialists |
+| `room/` | The room app (Next.js, deploys to Vercel) |
 | `skills/reports/module-plan-ideation.md` | The module plan and build roadmap |
 
 ## Tests
@@ -36,6 +37,13 @@ Each skill's scripts have unit tests that run on the standard library plus PyYAM
 
 ```bash
 for t in skills/aor-*/scripts/tests/test_*.py; do uv run "$t"; done
+cd room && npm test
 ```
 
-The room app (Vercel) is the next build step and isn't part of this repo yet.
+## The room app
+
+`room/` is the wall view of the room: a pixel-art office with one pod per project, Maestro's desk, and a tray of everything waiting on you, where you approve, edit, reject, or answer. It reads the same events the skills write and deploys to Vercel. See [`room/README.md`](room/README.md).
+
+```bash
+cd room && npm install && npm run dev   # http://127.0.0.1:4317, demo room until you connect an ops repo
+```
